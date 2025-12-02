@@ -39,7 +39,9 @@ if st.button("Predict Species"):
     
     # Convert to species name
     if label_encoder:
-        species_name = label_encoder.inverse_transform(prediction)[0]
+        # Force the prediction to be a 1D integer array to satisfy Scikit-Learn
+        clean_prediction = prediction.astype(int).ravel()
+        species_name = label_encoder.inverse_transform(clean_prediction)[0]
     else:
         # fallback in case label encoder wasn't saved
         species_map = {0: "Iris-setosa", 1: "Iris-versicolor", 2: "Iris-virginica"}
